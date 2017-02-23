@@ -1,1 +1,18 @@
-<a href="{{mailto}}" class="btn btn-default">{{fa-icon "envelope"}}{{i18n "user.email.title"}}</a>
+{{#if category.email_in}}
+  <a  href="{{mailto}}"
+      {{action "handleEmail"}}
+      id="create-topic-email"
+      class="btn btn-default no-text"
+      title="{{i18n "topic.create"}}"
+      disabled={{disable_new_topic_buttons}}>
+    {{fa-icon "envelope"}}
+  </a>
+{{/if}}
+
+<button id="create-topic-composer"
+        class="btn btn-default no-text {{unless logged_in 'disabled'}}"
+        {{action "createTopic"}}
+        title="{{i18n "topic.create"}}"
+        disabled={{disable_new_topic_buttons}}>
+  {{fa-icon "plus"}}
+</button>

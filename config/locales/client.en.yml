@@ -1,0 +1,10 @@
+en:
+  js:
+    expose_emails_in:
+      log_in_sign_up: "Sign up / Log in"
+      login_prompt:
+        title: "Sign up / Log in to post"
+        body: "You must be logged in to compose a new topic:"
+        body_stranger: "You must be logged in to post a new topic:"
+        email: "Alternatively, start a new topic by email:"
+        email_stranger: "Already a member? Start a new topic by email:"

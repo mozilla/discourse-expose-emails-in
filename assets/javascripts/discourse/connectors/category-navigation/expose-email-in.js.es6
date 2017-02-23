@@ -1,20 +1,50 @@
+import Composer from 'discourse/models/composer';
+import { getOwner } from 'discourse-common/lib/get-owner';
+import showModal from 'discourse/lib/show-modal';
+import PermissionType from 'discourse/models/permission-type';
+
 export default {
-  shouldRender(args, component) {
-    return args.category.email_in
+  setupComponent(args, component) {
+    $('#create-topic').css('display', 'none')
+
+    var logged_in = !!Discourse.User.current()
+    logged_in ? component.set('logged_in', true) : component.set('logged_in', false)
+
+    var email_in = args.category.email_in
+    component.set('mailto', `mailto:${email_in}`)
+
+    var email_in_allow_strangers = args.category.email_in_allow_strangers
+    if (!email_in_allow_strangers && !logged_in) {
+      component.set('stranger_danger', true)
+    }
+
+    var canCreateTopicOnCategory = args.category.permission === PermissionType.FULL;
+    var disable_new_topic_buttons = logged_in && !canCreateTopicOnCategory
+    component.set('disable_new_topic_buttons', disable_new_topic_buttons)
+    if (disable_new_topic_buttons) component.set('mailto', '#')
+
   },
 
-  setupComponent(args, component) {
-    var email_in = args.category.email_in
-    var email_in_allow_strangers = args.category.email_in_allow_strangers
-    var stranger_message = "This category doesn't support posting via email from strangers, so please ensure you've signed up for an account and use the email address registered with it, thanks!"
-
-    if (email_in_allow_strangers) {
-      component.set('mailto', `mailto:${email_in}`)
-    } else {
+  actions: {
+    createTopic () {
       if (Discourse.User.current()) {
-        component.set('mailto', `mailto:${email_in}`)
+        getOwner(this).lookup('controller:composer').open({
+          categoryId: this.category.id,
+          action: Composer.CREATE_TOPIC,
+          draftKey: Composer.CREATE_TOPIC
+        });
       } else {
-        component.set('mailto', `mailto:${email_in}?body=${encodeURIComponent(stranger_message)}`)
+        var model = this
+        showModal('login-prompt', { model })
+      }
+    },
+
+    handleEmail () {
+      if (this.stranger_danger) {
+        var model = this
+        showModal('login-prompt', { model })
+      } else {
+        window.location.href = this.mailto
       }
     }
   }
