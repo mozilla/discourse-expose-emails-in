@@ -1,0 +1,31 @@
+{{#d-modal-body title="expose_emails_in.login_prompt.title" class="login-prompt"}}
+  <div>
+    <h3>
+      {{#if model.stranger_danger}}
+        {{i18n "expose_emails_in.login_prompt.body_stranger"}}
+      {{else}}
+        {{i18n "expose_emails_in.login_prompt.body"}}
+      {{/if}}
+      {{d-button  class="btn-primary login-button"
+                  action="showLogin"
+                  icon="user"
+                  label="expose_emails_in.log_in_sign_up"}}
+    </h3>
+    {{#if model.category.email_in}}
+      <div class="email-in">
+        {{#if model.stranger_danger}}
+          {{i18n "expose_emails_in.login_prompt.email_stranger"}}
+        {{else}}
+          {{i18n "expose_emails_in.login_prompt.email"}}
+        {{/if}}
+        <a  href="{{model.mailto}}"
+            {{action "handleEmail"}}
+            id="create-topic-email"
+            class="btn btn-default"
+            title="{{i18n "topic.create"}}">
+          {{fa-icon "envelope"}} {{model.category.email_in}}
+        </a>
+    </div>
+    {{/if}}
+  </div>
+{{/d-modal-body}}

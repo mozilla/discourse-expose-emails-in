@@ -1,8 +1,10 @@
 # name: expose-emails-in
 # about: Discourse plugin which exposes category emails-in in useful ways
-# version: 0.0.1
+# version: 0.0.2
 # authors: Leo McArdle
 # url: https://github.com/mozilla/discourse-expose-emails-in
+
+register_asset 'stylesheets/expose-emails-in.scss'
 
 after_initialize do
   add_to_serializer(:basic_category, :email_in, false) { object.email_in }
