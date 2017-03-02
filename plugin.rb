@@ -1,6 +1,6 @@
 # name: expose-emails-in
 # about: Discourse plugin which exposes category emails-in in useful ways
-# version: 0.0.2
+# version: 0.0.3
 # authors: Leo McArdle
 # url: https://github.com/mozilla/discourse-expose-emails-in
 
