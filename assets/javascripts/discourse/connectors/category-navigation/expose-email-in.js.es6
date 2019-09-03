@@ -10,8 +10,10 @@ export default {
     var logged_in = !!Discourse.User.current()
     logged_in ? component.set('logged_in', true) : component.set('logged_in', false)
 
-    var email_in = args.category.email_in.split("|").pop()
-    component.set('mailto', `mailto:${email_in}`)
+    if (typeof args.category.email_in == "string") {
+      var email_in = args.category.email_in.split("|").pop()
+      component.set('mailto', `mailto:${email_in}`)
+    }
 
     var email_in_allow_strangers = args.category.email_in_allow_strangers
     if (!email_in_allow_strangers && !logged_in) {
