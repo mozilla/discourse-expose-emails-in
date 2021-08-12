@@ -7,7 +7,7 @@ export default {
   setupComponent(args, component) {
     $('#create-topic').css('display', 'none')
 
-    var logged_in = !!Discourse.User.current()
+    var logged_in = !!component.currentUser;
     logged_in ? component.set('logged_in', true) : component.set('logged_in', false)
 
     if (typeof args.category.email_in == "string") {
@@ -29,7 +29,7 @@ export default {
 
   actions: {
     createTopic () {
-      if (Discourse.User.current()) {
+      if (this.currentUser) {
         getOwner(this).lookup('controller:composer').open({
           categoryId: this.category.id,
           action: Composer.CREATE_TOPIC,
